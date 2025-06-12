@@ -46,6 +46,9 @@ function playRound(humanChoice, computerChoice) {
     } else if (humanChoice.toLowerCase === "scissors" && computerChoice === "paper") {
         console.log(`You win! ${humanChoice} beats ${computerChoice}`);
         humanScore++;
+    } else {
+        console.log(`You Win! ${humanChoice} beats ${computerChoice}.`);
+        humanScore++;
     }
 }
 
@@ -59,9 +62,9 @@ function playGame(){
     }
 
     if (humanScore > computerScore) {
-        console.log("Winner: User");
+        console.log(`You Win! Your Score: ${humanScore}.`);
     } else if (humanScore > computerScore) {
-        console.log("Winner: Computer");
+        console.log(`Computer Wins! Computer Score: ${computerScore}.`);
     } else {
         console.log(`Its a Tie! \nYour Score: ${humanScore}\nComputer Score ${computerScore}.`);
     }
