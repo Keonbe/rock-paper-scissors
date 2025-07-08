@@ -1,6 +1,8 @@
-//console.log("Hello World"); //Test
+//Track Score
+let humanScore = 0;
+let computerScore = 0;
 
-//Function for computer generated output
+// Function: computer generated output
 function getComputerChoice() {
     const Choice = ["rock", "paper", "scissors"];
     let index = Math.floor(Math.random() * 3);
@@ -9,67 +11,61 @@ function getComputerChoice() {
 }
 //console.log(getComputerChoice()); //Debug Computer Output
 
-//Function for user input, assume correct user types
-function getHumanChoice() {
-    output = prompt("Please enter your choice: rock, paper, scissors"); //Case sensitive
-    return output;
+
+// Replace prompt with buttons, Use of DOM JS
+const resultsDiv = document.getElementById("results"); 
+const scoreDiv = document.getElementById("score");
+
+// DOM 'addEventListener' function
+document.getElementById("rock").addEventListener("click", function() {
+  playGame("rock");
+});
+
+document.getElementById("paper").addEventListener("click", function() {
+  playGame("paper");
+});
+
+document.getElementById("scissors").addEventListener("click", function() {
+  playGame("scissors");
+});
+
+// Function: Round Logic
+function playGame(humanChoice) {
+  const computerChoice = getComputerChoice(); // Get the computer's choice
+  playRound(humanChoice, computerChoice); // Play one round and update scores
+  scoreDiv.textContent = `Player: ${humanScore} | Computer: ${computerScore}`; // Update score
+  checkWinner(humanChoice, computerChoice); // Check if 5 points yet
 }
 
-//Track Scores
-let humanScore = 0;
-let computerScore = 0;
-
+// Function: Game Logic
 function playRound(humanChoice, computerChoice) {
-    if (humanChoice.toLowerCase === computerChoice) {
-        console.log("Tie");
-
-    } else if (humanChoice.toLowerCase === "rock" && computerChoice === "paper") {
-        console.log(`You lose! ${computerChoice}$ beats ${humanChoice}`);
+    humanChoice = humanChoice.toLowerCase();
+    var message = "You chose " + humanChoice + ", computer chose " + computerChoice + ". ";
+    if (humanChoice === computerChoice) { // Tie
+        message += "It's a tie!";
+    } else if ( // Player lose
+        (humanChoice === "rock"     && computerChoice === "paper")    ||
+        (humanChoice === "paper"    && computerChoice === "scissors") ||
+        (humanChoice === "scissors" && computerChoice === "rock")
+    ) {
+        message += "You lose this round!";
         computerScore++;
-
-    } else if (humanChoice.toLowerCase === "rock" && computerChoice === "scissors") {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-        humanScore++;
-
-    } else if (humanChoice.toLowerCase === "paper" && computerChoice === "rock") {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-        humanScore++;
-
-    } else if (humanChoice.toLowerCase === "paper" && computerChoice === "scissors") {
-        console.log(`You lose! ${computerChoice}$ beats ${humanChoice}`);
-        computerScore++;
-
-    } else if (humanChoice.toLowerCase === "scissors" && computerChoice === "rock") {
-        console.log(`You lose! ${computerChoice}$ beats ${humanChoice}`);
-        computerScore++;
-
-    } else if (humanChoice.toLowerCase === "scissors" && computerChoice === "paper") {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-        humanScore++;
-    } else {
-        console.log(`You Win! ${humanChoice} beats ${computerChoice}.`);
+    } else { // Player wins
+        message += "You win this round!";
         humanScore++;
     }
+
+    resultsDiv.textContent = message; // Display result
 }
 
-//Main Function
-function playGame(){
-    for (let i = 0; i < 5; i++){
-        //let humanSelection = getHumanChoice(); //Get Human Choice
-        //let computerSelection = getComputerChoice(); //Get Computer Choice
-        //playRound(humanSelection, computerSelection);
-        playRound(getHumanChoice(), getComputerChoice());
-    }
-
-    if (humanScore > computerScore) {
-        console.log(`You Win! Your Score: ${humanScore}.`);
-    } else if (humanScore > computerScore) {
-        console.log(`Computer Wins! Computer Score: ${computerScore}.`);
-    } else {
-        console.log(`Its a Tie! \nYour Score: ${humanScore}\nComputer Score ${computerScore}.`);
+ // Function: End game and declare a winner
+function checkWinner() {
+    if (humanScore === 5 || computerScore === 5) {
+        if (humanScore > computerScore) {
+            resultsDiv.textContent = `Final score! You win` + ` (You: ${humanScore}, Computer: ${computerScore})`;
+        } else {
+            resultsDiv.textContent = `Final score! You lose` + ` (You: ${humanScore}, Computer: ${computerScore})`;
+        }
+        document.querySelectorAll("button").forEach(btn => btn.disabled = true); //Disable buttons after 5 score
     }
 }
-
-
-// Main Program Below
-playGame();
