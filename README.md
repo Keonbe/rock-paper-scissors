@@ -2,5 +2,5 @@
 odin-foundation-project3
 
 - Course: Foundation
-- Project: Rock Paper Scissors (3st Project)
+- Project: Rock Paper Scissors (3rd Project)
 - Deployment:
